@@ -1,0 +1,38 @@
+# Tests of the vi mode VIONEMORE option of ZLE
+
+%prep
+  unset -m LC_\*
+  ZSH_TEST_LANG=
+  langs=(en_{US,GB}.{UTF-,utf}8 en.UTF-8
+	 $(locale -a 2>/dev/null | egrep 'utf8|UTF-8'))
+  for LANG in $langs; do
+    if [[ é = ? ]]; then
+      ZSH_TEST_LANG=$LANG
+      break;
+    fi
+  done
+  if [[ $OSTYPE = cygwin ]]; then
+    ZTST_unimplemented="the zsh/zpty module does not work on Cygwin"
+  elif ( zmodload zsh/zpty 2>/dev/null ); then
+    . $ZTST_srcdir/comptest
+    comptestinit -v -V -z $ZTST_testdir/../Src/zsh
+  else
+    ZTST_unimplemented="the zsh/zpty module is not available"
+  fi
+
+%test
+
+  zletest $'end1\e'
+0:cursor after switching back to normal mode at end of line
+>BUFFER: end1
+>CURSOR: 3
+
+  zletest $'end2\elll'
+0:cursor after attempting to go right at end of line
+>BUFFER: end2
+>CURSOR: 4
+
+
+%clean
+
+  zmodload -ui zsh/zpty

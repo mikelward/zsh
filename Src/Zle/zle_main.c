@@ -136,6 +136,12 @@ static int eofsent;
  */
 static time_t keytimeout;
 
+/*
+ * Whether cursor can be at end of line in Vi command mode.
+ * Set via VIONEMORE shell variable.
+ */
+int vionemore;
+
 #if defined(HAVE_SELECT) || defined(HAVE_POLL)
 /* Terminal baud rate */
 
@@ -1147,7 +1153,7 @@ zlecore(void)
 	    }
 	    handleprefixes();
 	    /* for vi mode, make sure the cursor isn't somewhere illegal */
-	    if (invicmdmode() && zlecs > findbol() &&
+	    if (!vionemore && invicmdmode() && zlecs > findbol() &&
 		(zlecs == zlell || zleline[zlecs] == ZWC('\n')))
 		DECCS();
 	    handleundo();
@@ -1251,6 +1257,8 @@ zleread(char **lp, char **rp, int flags, int context, char *init, char *finish)
 	if (termflags & TERM_UNKNOWN)
 	    init_term();
     }
+
+    vionemore = (int)getiparam("VIONEMORE");
 
     fflush(shout);
     fflush(stderr);

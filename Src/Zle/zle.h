@@ -544,3 +544,5 @@ struct watch_fd {
     /* 1 if func is called as a widget */
     int widget;
 };
+
+extern int vionemore;

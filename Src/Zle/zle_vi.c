@@ -390,7 +390,7 @@ videlete(UNUSED(char **args))
 	ret = 0;
 	if (vilinerange && zlell) {
 	    lastcol = -1;
-	    if (zlecs == zlell)
+	    if (!vionemore && zlecs == zlell)
 		DECCS();
 	    foredel(1, 0);
 	    vifirstnonblank(zlenoargs);

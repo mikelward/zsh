@@ -7,7 +7,7 @@
 	 $(locale -a 2>/dev/null | egrep 'utf8|UTF-8'))
   for LANG in $langs; do
     if [[ é = ? ]]; then
-      ZSH_TEST_LANG=$LANG 
+      ZSH_TEST_LANG=$LANG
       break;
     fi
   done
@@ -21,6 +21,16 @@
   fi
 
 %test
+
+  zletest $'end1\e'
+0:cursor after switching back to normal mode at end of line
+>BUFFER: end1
+>CURSOR: 3
+
+  zletest $'end2\ell'
+0:cursor after attempting to go right at end of line
+>BUFFER: end2
+>CURSOR: 3
 
   zletest $'goox\ecld'
 0:change last character in buffer

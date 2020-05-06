@@ -9,11 +9,13 @@ comptestinit () {
 
   comptest_zsh=${ZSH:-zsh}
   comptest_keymap=e
+  comptest_vionemore=0
 
-  while getopts vz: opt; do
+  while getopts vVz: opt; do
     case $opt in
       z) comptest_zsh="$OPTARG";;
       v) comptest_keymap="v";;
+      V) comptest_vionemore="1";;
     esac
   done
   (( OPTIND > 1 )) && shift $(( OPTIND - 1 ))
@@ -33,6 +35,7 @@ comptestinit () {
 "module_path=( $module_path )" \
 "fpath=( $fpath )" \
 "bindkey -$comptest_keymap" \
+"VIONEMORE=$comptest_vionemore" \
 'LISTMAX=10000000
 stty 38400 columns 80 rows 24 tabs -icanon -iexten
 TERM=vt100

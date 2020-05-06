@@ -822,6 +822,7 @@ createparamtable(void)
     setiparam("LOGCHECK", 60);
     setiparam("KEYTIMEOUT", 40);
     setiparam("LISTMAX", 100);
+    setiparam("VIONEMORE", 0);
     /*
      * We used to get the output baud rate here.  However, that's
      * pretty irrelevant to a terminal on an X display and can lead

@@ -669,7 +669,7 @@ viforwardchar(char **args)
 	zmult = n;
 	return ret;
     }
-    if (invicmdmode() && !virangeflag)
+    if (!vionemore && invicmdmode() && !virangeflag)
 	DECPOS(lim);
     if (zlecs >= lim)
 	return 1;
